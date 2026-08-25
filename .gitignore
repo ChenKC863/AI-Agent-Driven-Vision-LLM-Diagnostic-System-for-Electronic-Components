@@ -72,6 +72,7 @@ model/*.onnx.data
 confidence_chart_*.png
 confidence_chart*.png
 vision_predictions_*.csv
+release_assets/
 
 # QLoRA / PEFT / GGUF model artifacts
 # Keep code and small configuration files in GitHub, but do not commit weights.
