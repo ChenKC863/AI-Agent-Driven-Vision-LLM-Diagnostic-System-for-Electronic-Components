@@ -17,16 +17,16 @@ An intelligent diagnostic system that combines visual recognition with Large Lan
 
 Electronic components/
 └── images/
--   ├── Inductor/      # 265 images [1]
--   ├── Resistor/      # 470 images [1]
--   ├── Solenoid/      # 317 images [2]
--   └── Transformer/   # 747 images [1]
+   ├── Inductor/      # 265 images [1]
+   ├── Resistor/      # 470 images [1]
+   ├── Solenoid/      # 317 images [2]
+   └── Transformer/   # 747 images [1]
 
 ### Cleaned Dataset
 
 Electronic components/
 └── images/
--  ├── Inductor/      # 260 images
--  ├── Resistor/      # 470 images
--  ├── Solenoid/      # 310 images
--  └── Transformer/   # 740 images
+   ├── Inductor/      # 260 images
+   ├── Resistor/      # 470 images
+   ├── Solenoid/      # 310 images
+   └── Transformer/   # 740 images
