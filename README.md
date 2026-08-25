@@ -12,9 +12,9 @@ An intelligent diagnostic system that combines visual recognition with Large Lan
 - [1] [Electronic-Components-Classification (GitHub)](https://github.com/pouria-faraj/Electronic-Components-Classification)
 - [2] [Electronic Components and Devices (Kaggle)](https://www.kaggle.com/datasets/aryaminus/electronic-components)
 
-ˋˋˋ
-### Original Dataset(for my choice)
 
+### Original Dataset(for my choice)
+ˋˋˋtext
 Electronic components/
 └── images/
   ├── Inductor/ # 265 images [1] 
@@ -22,11 +22,10 @@ Electronic components/
   ├── Solenoid/ # 317 images [2] 
   └── Transformer/ # 747 images [1] 
 ˋˋˋ
-ˋˋˋ
 ### Cleaned Dataset
 
 After data cleaning and preprocessing:
-
+ˋˋˋtext
 Electronic components/
 └── images/
   ├── Inductor/ # 260 images 
