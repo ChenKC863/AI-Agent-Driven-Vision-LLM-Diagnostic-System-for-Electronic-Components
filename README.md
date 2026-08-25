@@ -25,6 +25,8 @@ Electronic components/
 ˋˋˋ
 ### Cleaned Dataset
 
+After data cleaning and preprocessing:
+
 Electronic components/
 └── images/
   ├── Inductor/ # 260 images 
@@ -32,3 +34,32 @@ Electronic components/
   ├── Solenoid/ # 310 images 
   └── Transformer/ # 740 images 
 ˋˋˋ
+
+## 📌 Overview
+
+
+
+
+
+---
+
+## Project Structure
+
+
+
+## Installation
+
+
+
+## Usage
+
+
+
+## License
+
+*(Add license information here)*
+
+## Acknowledgments
+
+- [pouria-faraj](https://github.com/pouria-faraj) for the Electronic-Components-Classification dataset
+- [aryaminus](https://www.kaggle.com/datasets/aryaminus) for the Kaggle electronic components dataset
