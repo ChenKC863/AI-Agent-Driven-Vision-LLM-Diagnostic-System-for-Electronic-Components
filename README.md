@@ -9,7 +9,7 @@ Large Qwen3 GGUF and adapter artifacts are available in the GitHub Release--arti
   [1][Github - Electronic-Components-Classification](https://github.com/pouria-faraji/Electronic-Components-Classification)
   [2][Kaggle - Electronic components and devices](https://www.kaggle.com/datasets/aryaminus/electronic-components)
 
-ˋˋˋ
+
 ### Original Dataset
 
 Electronic components/
@@ -27,4 +27,4 @@ Electronic components/
  ├── Resistor/      # 470 images
  ├── Solenoid/      # 310 images
  └── Transformer/   # 740 images
-ˋˋˋ
+
