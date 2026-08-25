@@ -14,7 +14,7 @@ An intelligent diagnostic system that combines visual recognition with Large Lan
 
 
 ### Original Dataset(for my choice)
-```text
+ˋˋˋtext
 Electronic components/
 └── images/
     ├── Inductor/ # 265 images [1]
@@ -23,9 +23,8 @@ Electronic components/
     └── Transformer/ # 747 images [1]
 ˋˋˋ
 
-
 ### Cleaned Dataset
-
+After data cleaning and preprocessing:
 ˋˋˋtext
 Electronic components/
 └── images/
@@ -36,13 +35,13 @@ Electronic components/
 ˋˋˋ
 
 
+---
 ## 📌 Overview
 
 
 
 
 
----
 
 ## Project Structure
 
