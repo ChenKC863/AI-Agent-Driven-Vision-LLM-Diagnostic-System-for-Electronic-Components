@@ -11,20 +11,20 @@ Large Qwen3 GGUF and adapter artifacts are available in the GitHub Release--arti
 
 
 ### Original Dataset
-
+ˋˋˋ
 Electronic components/
 └── images/
  ├── Inductor/      # 265 images [1]
  ├── Resistor/      # 470 images [1]
  ├── Solenoid/      # 317 images [2]
  └── Transformer/   # 747 images [1]
-
+ˋˋˋ
 ### Cleaned Dataset
-
+ˋˋˋ
 Electronic components/
 └── images/
  ├── Inductor/      # 260 images
  ├── Resistor/      # 470 images
  ├── Solenoid/      # 310 images
  └── Transformer/   # 740 images
-
+ˋˋˋ
