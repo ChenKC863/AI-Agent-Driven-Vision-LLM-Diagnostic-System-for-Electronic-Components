@@ -14,6 +14,7 @@ An intelligent diagnostic system that combines visual recognition with Large Lan
 
 
 ### Original Dataset(for my choice)
+
 ˋˋˋtext
 Electronic components/
 └── images/
@@ -25,6 +26,7 @@ Electronic components/
 
 ### Cleaned Dataset
 After data cleaning and preprocessing:
+
 ˋˋˋtext
 Electronic components/
 └── images/
