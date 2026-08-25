@@ -14,7 +14,6 @@ An intelligent diagnostic system that combines visual recognition with Large Lan
 
 
 ### Original Dataset(for my choice)
-
 ```text
 Electronic components/
 └── images/
@@ -23,10 +22,8 @@ Electronic components/
     ├── Solenoid/ # 317 images [2]
     └── Transformer/ # 747 images [1]
 ˋˋˋ
-
 ### Cleaned Dataset
 
-After data cleaning and preprocessing:
 ˋˋˋtext
 Electronic components/
 └── images/
