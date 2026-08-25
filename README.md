@@ -1,13 +1,16 @@
-# AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components
+# AI Visual Recognition & LLM Intelligent Diagnostic System for Electronic Components
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-Large Qwen3 GGUF and adapter artifacts are available in the GitHub Release--artifacts-v1.
+An intelligent diagnostic system that combines visual recognition with Large Language Models (LLMs) to identify and diagnose electronic components from images.
 
-## Dataset 
+> **Note:** Large Qwen3 GGUF and adapter artifacts are available in the [GitHub Release — artifacts-v1](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/releases).
 
-- **Source**:
-  [1][Github - Electronic-Components-Classification](https://github.com/pouria-faraji/Electronic-Components-Classification)
-  [2][Kaggle - Electronic components and devices](https://www.kaggle.com/datasets/aryaminus/electronic-components)
+---
+
+## Dataset
+
+### Sources
+- [1] [Electronic-Components-Classification (GitHub)](https://github.com/pouria-faraj/Electronic-Components-Classification)
+- [2] [Electronic Components and Devices (Kaggle)](https://www.kaggle.com/datasets/aryaminus/electronic-components)
 
 
 ### Original Dataset(for my choice)
