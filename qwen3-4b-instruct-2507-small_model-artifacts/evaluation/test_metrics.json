@@ -1,0 +1,15 @@
+{
+  "samples": 156,
+  "json_valid_rate": 1.0,
+  "schema_compliance_rate": 1.0,
+  "confidence_policy_accuracy": 1.0,
+  "selective_accuracy": 1.0,
+  "coverage": 0.42948717948717946,
+  "automatically_accepted_samples": 67,
+  "accepted_and_correct_samples": 67,
+  "selective_accuracy_reference_mode": "vision_prediction_fallback",
+  "frozen_confidence_threshold": 0.7,
+  "threshold_selection_mode": "predefined_dataset_policy",
+  "total_inference_seconds": 1017.1738240718842,
+  "mean_seconds_per_sample": 6.520345026101822
+}

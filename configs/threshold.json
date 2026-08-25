@@ -1,0 +1,11 @@
+{
+  "confidence_threshold": 0.7,
+  "selected_from": "validation",
+  "policy": "requires_human_review is true when confidence is lower than confidence_threshold",
+  "class_order": [
+    "Inductor",
+    "Resistor",
+    "Transformer",
+    "solenoid"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "model_name": "Qwen/Qwen3-4B-Instruct-2507",
+  "model_variant": "small_model",
+  "frozen_confidence_threshold": 0.7,
+  "adapter": "adapter/adapter_model.safetensors",
+  "adapter_config": "adapter/adapter_config.json",
+  "gguf": "gguf/qwen3-4b-instruct-2507.Q4_K_M.gguf",
+  "ollama_modelfile": "gguf/Modelfile",
+  "requirements": "requirements-cloud-lock.txt",
+  "evaluation": {
+    "test_metrics": "evaluation/test_metrics.json",
+    "test_predictions": "evaluation/test_predictions.jsonl",
+    "token_length_analysis": "evaluation/token_length_analysis.csv",
+    "smoke_test": "evaluation/smoke_test_results.json"
+  }
+}

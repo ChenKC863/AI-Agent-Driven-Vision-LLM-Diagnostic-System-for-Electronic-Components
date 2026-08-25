@@ -1,0 +1,15 @@
+{
+  "frozen_threshold": 0.7,
+  "high_confidence": {
+    "json_valid": true,
+    "schema_compliance": true,
+    "expected_human_review": false,
+    "actual_human_review": false
+  },
+  "low_confidence": {
+    "json_valid": true,
+    "schema_compliance": true,
+    "expected_human_review": true,
+    "actual_human_review": true
+  }
+}

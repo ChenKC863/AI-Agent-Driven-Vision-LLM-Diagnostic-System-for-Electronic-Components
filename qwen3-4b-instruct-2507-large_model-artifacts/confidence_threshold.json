@@ -1,0 +1,7 @@
+{
+  "threshold": 0.7,
+  "selection_mode": "predefined_dataset_policy",
+  "source": "predefined in the original JSONL dataset",
+  "validation_samples": 156,
+  "test_used_for_selection": false
+}

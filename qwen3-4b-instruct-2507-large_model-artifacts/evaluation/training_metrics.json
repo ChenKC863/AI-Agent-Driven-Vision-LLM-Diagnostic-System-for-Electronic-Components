@@ -1,0 +1,22 @@
+{
+  "train_metrics": {
+    "train_runtime": 835.268,
+    "train_samples_per_second": 1.743,
+    "train_steps_per_second": 0.11,
+    "train_loss": 0.40737623397422873,
+    "epoch": 2.0
+  },
+  "validation_metrics": {
+    "eval_loss": 0.11324716359376907,
+    "eval_runtime": 26.4444,
+    "eval_samples_per_second": 5.899,
+    "eval_steps_per_second": 2.95,
+    "epoch": 2.0
+  },
+  "training_seconds": 837.6059408187866,
+  "best_model_checkpoint": "/kaggle/working/qwen3_4b_trainer_large_model/checkpoint-92",
+  "best_metric": 0.1132471114397049,
+  "world_size": 1,
+  "trainer_n_gpu": 1,
+  "estimated_global_effective_batch_size": 16
+}

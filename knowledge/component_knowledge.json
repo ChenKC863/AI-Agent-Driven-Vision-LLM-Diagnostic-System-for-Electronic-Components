@@ -1,0 +1,30 @@
+{
+  "Inductor": {
+    "display_name": "Inductor",
+    "function": "Stores energy in a magnetic field and helps filter current ripple.",
+    "operator_action_if_accepted": "Use the predicted component label for downstream documentation after normal production checks.",
+    "operator_action_if_uncertain": "Send the image to human review before using the predicted label.",
+    "limitation": "Visual classification does not verify inductance value, polarity, continuity, or electrical functionality."
+  },
+  "Resistor": {
+    "display_name": "Resistor",
+    "function": "Limits current, divides voltage, or sets bias in the circuit.",
+    "operator_action_if_accepted": "Use the predicted component label for downstream documentation after normal production checks.",
+    "operator_action_if_uncertain": "Send the image to human review before using the predicted label.",
+    "limitation": "Visual classification does not verify resistance value, tolerance, damage, or electrical functionality."
+  },
+  "Transformer": {
+    "display_name": "Transformer",
+    "function": "Transfers electrical energy between windings through magnetic coupling.",
+    "operator_action_if_accepted": "Use the predicted component label for downstream documentation after normal production checks.",
+    "operator_action_if_uncertain": "Send the image to human review before using the predicted label.",
+    "limitation": "Visual classification does not verify winding ratio, insulation quality, continuity, or electrical functionality."
+  },
+  "solenoid": {
+    "display_name": "solenoid",
+    "function": "Converts electrical energy into linear mechanical motion using an electromagnetic coil.",
+    "operator_action_if_accepted": "Use the predicted component label for downstream documentation after normal production checks.",
+    "operator_action_if_uncertain": "Send the image to human review before using the predicted label.",
+    "limitation": "Visual classification does not verify coil resistance, actuation force, stroke, or electrical functionality."
+  }
+}

@@ -1,0 +1,103 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+secrets.*
+*_API_KEY*
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+.venv_win/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# VS Code / Codex local workspace state
+.vscode/
+.agents/
+.codex/
+.tmp/
+.tmp_*/
+
+# CMake and native build artifacts
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+*.ninja
+.ninja_*
+*.obj
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.exp
+
+# Logs and temporary runtime files
+*.log
+buildlog.txt
+*.tmp
+*.bak
+*.swp
+*.swo
+~$*
+
+# Local datasets
+# Keep public demo samples in a small examples/ or docs/assets/ folder instead.
+train/
+val/
+test/
+
+# ONNX Runtime / vision model binaries
+# These files are usually too large for a normal GitHub repository.
+model/*.onnx
+model/*.onnx.data
+
+# Generated inference outputs
+confidence_chart_*.png
+confidence_chart*.png
+vision_predictions_*.csv
+
+# Generated JSONL fine-tuning datasets
+electronics_train_*.jsonl
+electronics_validation_*.jsonl
+electronics_test_*.jsonl
+
+# QLoRA / PEFT / GGUF model artifacts
+# Keep code and small configuration files in GitHub, but do not commit weights.
+qwen3-4b-instruct-2507-*_model-artifacts/adapter/
+qwen3-4b-instruct-2507-*_model-artifacts/prepared_data/
+qwen3-4b-instruct-2507-*_model-artifacts/gguf_gguf/*.gguf
+qwen3-4b-instruct-2507-*_model-artifacts/**/*.safetensors
+
+# Large model checkpoints and ML training byproducts
+checkpoints/
+runs/
+wandb/
+mlruns/
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.gguf
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini

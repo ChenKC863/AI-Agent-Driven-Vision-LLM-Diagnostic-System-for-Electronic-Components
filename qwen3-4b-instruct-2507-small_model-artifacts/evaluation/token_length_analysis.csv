@@ -1,0 +1,4 @@
+split,samples,min_tokens,mean_tokens,median_tokens,p95_tokens,max_tokens,over_512
+train,728,228,234.05494505494505,235.0,238.0,239,0
+validation,156,230,233.87820512820514,234.0,237.25,239,0
+test,156,228,233.92307692307693,234.0,237.0,239,0

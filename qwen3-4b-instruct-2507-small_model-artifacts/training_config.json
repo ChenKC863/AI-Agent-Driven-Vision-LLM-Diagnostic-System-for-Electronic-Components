@@ -1,0 +1,41 @@
+{
+  "model_name": "Qwen/Qwen3-4B-Instruct-2507",
+  "vision_model_variant": "small_model",
+  "dataset": {
+    "train": 728,
+    "validation": 156,
+    "test": 156
+  },
+  "max_length": 512,
+  "quantization": {
+    "load_in_4bit": true,
+    "method": "QLoRA"
+  },
+  "lora": {
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0.0,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "training": {
+    "per_device_train_batch_size": 2,
+    "per_device_eval_batch_size": 2,
+    "gradient_accumulation_steps": 8,
+    "num_train_epochs": 2,
+    "learning_rate": 0.0002,
+    "warmup_steps": 5,
+    "lr_scheduler_type": "cosine",
+    "seed": 3407
+  },
+  "frozen_confidence_threshold": 0.7,
+  "threshold_selection_mode": "predefined_dataset_policy",
+  "gguf_quantization": "q4_k_m"
+}

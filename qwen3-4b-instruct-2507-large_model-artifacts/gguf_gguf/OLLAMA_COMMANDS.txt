@@ -1,0 +1,15 @@
+Download this gguf folder to your local machine and run inside the folder:
+
+ollama create electronics-qwen3-4b -f Modelfile
+
+ollama run electronics-qwen3-4b
+
+To expose as OpenAI‑compatible API:
+
+ollama serve
+
+Default endpoint:
+http://localhost:11434/v1/chat/completions
+
+Model name:
+electronics-qwen3-4b
