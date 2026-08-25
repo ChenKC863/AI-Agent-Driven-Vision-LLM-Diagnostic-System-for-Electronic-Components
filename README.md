@@ -22,6 +22,8 @@ Electronic components/
     ├── Solenoid/ # 317 images [2]
     └── Transformer/ # 747 images [1]
 ˋˋˋ
+
+
 ### Cleaned Dataset
 
 ˋˋˋtext
