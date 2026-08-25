@@ -73,11 +73,6 @@ confidence_chart_*.png
 confidence_chart*.png
 vision_predictions_*.csv
 
-# Generated JSONL fine-tuning datasets
-electronics_train_*.jsonl
-electronics_validation_*.jsonl
-electronics_test_*.jsonl
-
 # QLoRA / PEFT / GGUF model artifacts
 # Keep code and small configuration files in GitHub, but do not commit weights.
 qwen3-4b-instruct-2507-*_model-artifacts/adapter/
