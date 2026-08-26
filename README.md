@@ -276,8 +276,6 @@ Import the variant-model:
 cd qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf
 
 ollama create electronics-qwen3-4b-instruct-2507-{variant} -f Modelfile
-
-cd ../..
 ```
 where {variant} is large or small.
 
