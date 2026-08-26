@@ -143,5 +143,417 @@ where {variant} is large or small.
 
 ## Getting Started
 
+This guide demonstrates local deployment using **Windows, MSYS2 UCRT64, Ninja, ONNX Runtime, OpenCV, and Ollama**.
+
+### 1. Prerequisites
+
+Install the following software before building the project:
+
+* Git
+* Python 3.10 or later
+* MSYS2 with the UCRT64 environment
+* CMake
+* Ninja
+* OpenCV
+* ONNX Runtime C++ SDK
+* Ollama
+
+The GGUF models require several gigabytes of storage. CPU-only execution is supported, but LLM generation may take longer than GPU-accelerated inference.
+
+### 2. Clone the Repository
+
+Open an MSYS2 UCRT64 terminal and run:
+
+```bash
+git clone https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components.git
+
+cd AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components
+```
+
+### 3. Install the C++ Build Dependencies
+
+Install the required MSYS2 packages:
+
+```bash
+pacman -Syu
+
+pacman -S --needed \
+  mingw-w64-ucrt-x86_64-toolchain \
+  mingw-w64-ucrt-x86_64-cmake \
+  mingw-w64-ucrt-x86_64-ninja \
+  mingw-w64-ucrt-x86_64-opencv \
+  mingw-w64-ucrt-x86_64-curl \
+  mingw-w64-ucrt-x86_64-nlohmann-json
+```
+
+Download the Windows x64 ONNX Runtime C++ SDK from the official [ONNX Runtime releases](https://github.com/microsoft/onnxruntime/releases) and extract it to a local directory, for example:
+
+```text
+C:/onnxruntime/onnxruntime-win-x64-1.27.0/
+├── include/
+└── lib/
+```
+
+Confirm that the extracted package contains the required files:
+
+```text
+include/onnxruntime_cxx_api.h
+lib/onnxruntime.lib
+lib/onnxruntime.dll
+```
+
+> The ONNX Runtime version and installation path must match the value supplied to CMake or configured in `CMakeLists.txt`.
+
+### 4. Prepare the Vision Models
+
+Place the exported MobileNetV3 ONNX models in the `model/` directory:
+
+```text
+model/
+├── component_classifier_small.onnx
+├── component_classifier_small.onnx.data
+├── component_classifier_large.onnx
+└── component_classifier_large.onnx.data
+```
+
+If a model was exported without external tensor data, the corresponding `.onnx.data` file may not be required.
+
+The `.onnx` file and its `.onnx.data` file, when present, must remain in the same directory.
+
+### 5. Download the Fine-Tuned Qwen3 Artifacts
+
+Download the required GGUF and adapter artifacts from the [artifacts-v1 GitHub Release](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/releases).
+
+Extract the downloaded files into the corresponding artifact directory:
+
+```text
+qwen3-4b-instruct-2507-small_model-artifacts/
+└── gguf_gguf/
+    ├── qwen3-4b-instruct-2507.Q4_K_M.gguf
+    └── Modelfile
+
+qwen3-4b-instruct-2507-large_model-artifacts/
+└── gguf_gguf/
+    ├── qwen3-4b-instruct-2507.Q4_K_M.gguf
+    └── Modelfile
+```
+
+If the GGUF model was downloaded as multiple parts, reconstruct it before importing it into Ollama:
+
+```bash
+cat qwen3-4b-instruct-2507-small.Q4_K_M.gguf.part-* \
+  > qwen3-4b-instruct-2507-small_model-artifacts/gguf_gguf/qwen3-4b-instruct-2507.Q4_K_M.gguf
+```
+
+Use the equivalent command with `large` for the Large-model artifact.
+
+### 6. Verify Artifact Integrity
+
+Verify the downloaded artifacts before deployment:
+
+```bash
+cd qwen3-4b-instruct-2507-small_model-artifacts
+sha256sum -c SHA256SUMS.txt
+cd ..
+```
+
+For the Large-model artifacts:
+
+```bash
+cd qwen3-4b-instruct-2507-large_model-artifacts
+sha256sum -c SHA256SUMS.txt
+cd ..
+```
+
+A valid package should report `OK` for every file listed in `SHA256SUMS.txt`.
+
+### 7. Check the Ollama Modelfile
+
+Each `gguf_gguf/Modelfile` should contain:
+
+```text
+FROM ./qwen3-4b-instruct-2507.Q4_K_M.gguf
+
+PARAMETER temperature 0
+PARAMETER num_ctx 2048
+PARAMETER num_predict 256
+```
+
+These settings provide deterministic output, sufficient context length, and a controlled generation limit.
+
+### 8. Import the Fine-Tuned Models into Ollama
+
+Import the Small-model variant:
+
+```bash
+cd qwen3-4b-instruct-2507-small_model-artifacts/gguf_gguf
+
+ollama create electronics-qwen3-4b-instruct-2507-small -f Modelfile
+
+cd ../..
+```
+
+Import the Large-model variant:
+
+```bash
+cd qwen3-4b-instruct-2507-large_model-artifacts/gguf_gguf
+
+ollama create electronics-qwen3-4b-instruct-2507-large -f Modelfile
+
+cd ../..
+```
+
+Confirm that both models are registered:
+
+```bash
+ollama list
+```
+
+For comparison with the generic baseline model, optionally download:
+
+```bash
+ollama pull llama3.2:1b
+```
+
+### 9. Start the Local Ollama Server
+
+Open a separate MSYS2 terminal and start Ollama:
+
+```bash
+export CUDA_VISIBLE_DEVICES=-1
+export GGML_VK_VISIBLE_DEVICES=-1
+
+ollama serve
+```
+
+These environment variables force CPU-only execution.
+
+Keep this terminal open while running the C++ inference engine or LangGraph agent. The OpenAI-compatible endpoint will be available at:
+
+```text
+http://127.0.0.1:11434/v1/chat/completions
+```
+
+If port `11434` is already in use, Ollama may already be running. Check the server before starting another instance:
+
+```bash
+curl http://127.0.0.1:11434/api/tags
+```
+
+On Windows, the existing process can be stopped when necessary with:
+
+```bash
+taskkill //IM ollama.exe //F
+taskkill //IM ollama_llama_server.exe //F
+```
+
+### 10. Test the Ollama Connection
+
+Run a basic connection test from another terminal:
+
+```bash
+curl http://127.0.0.1:11434/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "electronics-qwen3-4b-instruct-2507-large",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Return valid JSON only. No Markdown. Vision model result: predicted_class=Inductor, confidence=0.90, confidence_threshold=0.70."
+      }
+    ],
+    "temperature": 0,
+    "stream": false
+  }'
+```
+
+A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
+
+### 11. Configure and Build the C++ Inference Engine
+
+From the project root, configure the project with Ninja:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0"
+```
+
+If CMake cannot locate OpenCV automatically, provide its configuration directory:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0" \
+  -DOpenCV_DIR="C:/path/to/opencv/lib/cmake/opencv4"
+```
+
+Build the executable:
+
+```bash
+cmake --build build
+```
+
+The generated executable should be located at:
+
+```text
+build/inference.exe
+```
+
+### 12. Run Single-Image Inference
+
+Run the Small vision model:
+
+```bash
+./build/inference.exe \
+  ./model/component_classifier_small.onnx \
+  ./test/Inductor/example.jpg
+```
+
+Run the Large vision model:
+
+```bash
+./build/inference.exe \
+  ./model/component_classifier_large.onnx \
+  ./test/Inductor/example.jpg
+```
+
+Replace the example image path with an existing `.jpg`, `.jpeg`, or other supported image file.
+
+The program outputs:
+
+* Predicted component class
+* Confidence score
+* Probabilities for all four classes
+* ONNX inference latency in milliseconds
+* Confidence bar chart
+* LLM-generated diagnostic guidance
+* Deterministic fallback output if the LLM request fails
+
+### 13. Export Predictions in Batch Mode
+
+Place the local dataset under the expected split structure:
+
+```text
+dataset_root/
+├── train/
+├── val/
+└── test/
+```
+
+Each split should contain the four component class directories.
+
+Run batch export with the Small model:
+
+```bash
+./build/inference.exe \
+  --batch-csv \
+  ./model/component_classifier_small.onnx \
+  ./dataset_root
+```
+
+Run batch export with the Large model:
+
+```bash
+./build/inference.exe \
+  --batch-csv \
+  ./model/component_classifier_large.onnx \
+  ./dataset_root
+```
+
+The generated files are:
+
+```text
+vision_predictions_small_model.csv
+vision_predictions_large_model.csv
+```
+
+These CSV files contain the true label, predicted label, confidence, class probabilities, and dataset split for each image.
+
+### 14. Install the LangGraph Agent Dependencies
+
+Create and activate a Python virtual environment:
+
+```bash
+python -m venv .venv_win
+source .venv_win/Scripts/activate
+```
+
+Install the LangGraph dependencies:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install langgraph langchain-core
+```
+
+If a project-specific runtime requirements file is provided, install it as well:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+> `requirements-cloud-lock.txt` is intended for reproducing the cloud fine-tuning environment and may install packages that are unnecessary for local inference.
+
+### 15. Run the LangGraph Diagnostic Agent
+
+Run the complete workflow with the Small-model pipeline:
+
+```bash
+python agent/langgraph_component_agent.py \
+  --image ./test/Inductor/example.jpg \
+  --variant small_model \
+  --ollama-model electronics-qwen3-4b-instruct-2507-small
+```
+
+Run the Large-model pipeline:
+
+```bash
+python agent/langgraph_component_agent.py \
+  --image ./test/Inductor/example.jpg \
+  --variant large_model \
+  --ollama-model electronics-qwen3-4b-instruct-2507-large
+```
+
+To compare against the generic baseline LLM:
+
+```bash
+python agent/langgraph_component_agent.py \
+  --image ./test/Inductor/example.jpg \
+  --variant large_model \
+  --ollama-model llama3.2:1b
+```
+
+When confidence is at least `0.70`, the workflow proceeds directly to diagnostic generation. When confidence is below `0.70`, execution pauses for human review.
+
+The operator can choose one of three actions:
+
+```text
+approve
+reject
+correct
+```
+
+After the decision, the workflow resumes and produces a policy-normalized JSON diagnostic result.
+
+### 16. Expected Diagnostic Schema
+
+The final diagnostic output follows this structure:
+
+```json
+{
+  "identified_component": "Inductor",
+  "predicted_component": "Inductor",
+  "vision_confidence": 0.9,
+  "confidence_threshold": 0.7,
+  "requires_human_review": false,
+  "function": "Stores energy in a magnetic field and helps filter current ripple.",
+  "operator_action": "Use the predicted component label for downstream documentation after normal production checks.",
+  "limitation": "Visual classification does not verify inductance value, polarity, continuity, or electrical functionality.",
+  "human_review_completed": false
+}
+```
+
+> The diagnostic output is decision support only. Visual classification does not verify component values, continuity, polarity, insulation quality, or electrical functionality.
+
 
 
