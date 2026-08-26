@@ -143,7 +143,7 @@ where {variant} is large or small.
 
 ## Getting Started
 
-This guide demonstrates local deployment using **Windows, MSYS2 UCRT64, Ninja, ONNX Runtime, OpenCV, and Ollama**.
+Here, this guide demonstrates local deployment using **Windows, MSYS2 UCRT64, Ninja, ONNX Runtime, OpenCV, and Ollama**.
 
 ### 1. Prerequisites
 
@@ -496,32 +496,25 @@ python -m pip install -r requirements.txt
 
 ### 15. Run the LangGraph Diagnostic Agent
 
-Run the complete workflow with the Small-model pipeline:
+Run the complete workflow with the variant-model pipeline:
 
 ```bash
 python agent/langgraph_component_agent.py \
-  --image ./test/Inductor/example.jpg \
-  --variant small_model \
-  --ollama-model electronics-qwen3-4b-instruct-2507-small
-```
-
-Run the Large-model pipeline:
-
-```bash
-python agent/langgraph_component_agent.py \
-  --image ./test/Inductor/example.jpg \
-  --variant large_model \
-  --ollama-model electronics-qwen3-4b-instruct-2507-large
+  --image ./test/{class_name}/{image_file_name} \
+  --variant {variant}_model \
+  --ollama-model electronics-qwen3-4b-instruct-2507-{variant}
 ```
 
 To compare against the generic baseline LLM:
 
 ```bash
 python agent/langgraph_component_agent.py \
-  --image ./test/Inductor/example.jpg \
-  --variant large_model \
+  --image ./test/{class_name}/{image_file_name} \
+  --variant {variant}_model \
   --ollama-model llama3.2:1b
 ```
+
+where {variant} is large or small.
 
 When confidence is at least `0.70`, the workflow proceeds directly to diagnostic generation. When confidence is below `0.70`, execution pauses for human review.
 
