@@ -98,7 +98,7 @@ The project covers the complete AI lifecycle:
 
 ## Project Structure
 ```text
-\Four_electronic_components
+Four_electronic_components/
 ├── .git/
 ├── .gitignore
 ├── .vscode/
