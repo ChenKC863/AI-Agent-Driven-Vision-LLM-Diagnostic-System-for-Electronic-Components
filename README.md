@@ -60,7 +60,7 @@ A balanced working dataset of **1,040 images** was used, with **260 images per c
 flowchart TD
     A["Component Image"] --> B["MobileNetV3 Classifier"]
     B --> C["C++ ONNX Runtime"]
-    C --> D{"Confidence ≥ 0.70?"}
+    C -->|Set the threshold of confidence to be 0.70| D{"Confidence ≥ 0.70?"}
     D -->|Yes| E["LLM Diagnostic Generation"]
     D -->|No| F["Human Review"]
     F --> E
