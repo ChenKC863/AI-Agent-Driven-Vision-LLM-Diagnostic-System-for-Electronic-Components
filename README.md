@@ -134,9 +134,10 @@ Four_electronic_components/
 ├── electronics_train_{variant}_model.jsonl
 ├── electronics_validation_{variant}_model.jsonl
 ├── electronics_test_{variant}_model.jsonl
-├── vision_predictions_{variant}_model.csv
 └── vision_predictions_{variant}_model.csv
 ```
+where {variant} is large or small.
+
 ---
 
 
