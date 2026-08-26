@@ -167,7 +167,7 @@ Open an MSYS2 UCRT64 terminal and run:
 ```bash
 git clone https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components.git
 
-cd AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components
+cd Four_electronic_components
 ```
 
 ### 3. Install the C++ Build Dependencies
