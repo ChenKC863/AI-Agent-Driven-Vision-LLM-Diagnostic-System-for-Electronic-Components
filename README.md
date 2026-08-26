@@ -227,43 +227,30 @@ Download the required GGUF and adapter artifacts from the [artifacts-v1 GitHub R
 Extract the downloaded files into the corresponding artifact directory:
 
 ```text
-qwen3-4b-instruct-2507-small_model-artifacts/
-└── gguf_gguf/
-    ├── qwen3-4b-instruct-2507.Q4_K_M.gguf
-    └── Modelfile
-
-qwen3-4b-instruct-2507-large_model-artifacts/
+qwen3-4b-instruct-2507-{variant}_model-artifacts/
 └── gguf_gguf/
     ├── qwen3-4b-instruct-2507.Q4_K_M.gguf
     └── Modelfile
 ```
+where {variant} is large or small.
 
 If the GGUF model was downloaded as multiple parts, reconstruct it before importing it into Ollama:
 
 ```bash
-cat qwen3-4b-instruct-2507-small.Q4_K_M.gguf.part-* \
-  > qwen3-4b-instruct-2507-small_model-artifacts/gguf_gguf/qwen3-4b-instruct-2507.Q4_K_M.gguf
+cat qwen3-4b-instruct-2507-{variant}.Q4_K_M.gguf.part-* \
+  > qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf/qwen3-4b-instruct-2507.Q4_K_M.gguf
 ```
-
-Use the equivalent command with `large` for the Large-model artifact.
 
 ### 6. Verify Artifact Integrity
 
 Verify the downloaded artifacts before deployment:
 
 ```bash
-cd qwen3-4b-instruct-2507-small_model-artifacts
+cd qwen3-4b-instruct-2507-{variant}_model-artifacts
 sha256sum -c SHA256SUMS.txt
 cd ..
 ```
-
-For the Large-model artifacts:
-
-```bash
-cd qwen3-4b-instruct-2507-large_model-artifacts
-sha256sum -c SHA256SUMS.txt
-cd ..
-```
+where {variant} is large or small.
 
 A valid package should report `OK` for every file listed in `SHA256SUMS.txt`.
 
@@ -283,25 +270,17 @@ These settings provide deterministic output, sufficient context length, and a co
 
 ### 8. Import the Fine-Tuned Models into Ollama
 
-Import the Small-model variant:
+Import the variant-model:
 
 ```bash
-cd qwen3-4b-instruct-2507-small_model-artifacts/gguf_gguf
+cd qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf
 
-ollama create electronics-qwen3-4b-instruct-2507-small -f Modelfile
+ollama create electronics-qwen3-4b-instruct-2507-{variant} -f Modelfile
 
 cd ../..
 ```
+where {variant} is large or small.
 
-Import the Large-model variant:
-
-```bash
-cd qwen3-4b-instruct-2507-large_model-artifacts/gguf_gguf
-
-ollama create electronics-qwen3-4b-instruct-2507-large -f Modelfile
-
-cd ../..
-```
 
 Confirm that both models are registered:
 
