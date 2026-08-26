@@ -141,19 +141,7 @@ where {variant} is large or small.
 ---
 
 
-## Installation
+## Getting Started
 
 
 
-## Usage
-
-
-
-## License
-
-*(Add license information here)*
-
-## Acknowledgments
-
-- Pouria-faraj(https://github.com/pouria-faraj) for the Electronic-Components-Classification dataset
-- Aryaminus(https://www.kaggle.com/datasets/aryaminus) for the Kaggle electronic components dataset
