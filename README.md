@@ -63,5 +63,5 @@ Electronic components/
 
 ## Acknowledgments
 
-- [pouria-faraj](https://github.com/pouria-faraj) for the Electronic-Components-Classification dataset
-- [aryaminus](https://www.kaggle.com/datasets/aryaminus) for the Kaggle electronic components dataset
+- Pouria-faraj(https://github.com/pouria-faraj) for the Electronic-Components-Classification dataset
+- Aryaminus(https://www.kaggle.com/datasets/aryaminus) for the Kaggle electronic components dataset
