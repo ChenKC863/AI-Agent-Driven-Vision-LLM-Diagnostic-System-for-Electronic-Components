@@ -562,8 +562,14 @@ The final diagnostic output follows this structure:
 ## 🧪 Example Results
 Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
 
+### Fine-tuned LLM Artifact
 1.{variant}=small
 
+
+
+
+
+2.{variant}=large
 
 
 
