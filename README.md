@@ -262,7 +262,7 @@ PARAMETER num_predict 256
 If the Modelfile is missing, create it:
 ```bash
 cd Four_electronic_components/qwen3-4b-instruct-2507_large_model-artifacts/gguf_gguf
-cat > Modelfile <<'any words'
+cat > Modelfile << 'any words'
 FROM ./qwen3-4b-instruct-2507.Q4_K_M.gguf
 PARAMETER temperature 0
 PARAMETER num_ctx 2048
