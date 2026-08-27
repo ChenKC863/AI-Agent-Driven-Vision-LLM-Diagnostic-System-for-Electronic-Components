@@ -564,11 +564,17 @@ Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
 
 ### Fine-tuned LLM Artifact
 #### 1.{variant}=small
+
 For Local Ollama Server
+
 <img width="533" height="296" alt="image" src="https://github.com/user-attachments/assets/b9b34031-4c47-42ce-bfb3-d96ca752731a" />
+
 <img width="522" height="295" alt="image" src="https://github.com/user-attachments/assets/30206e53-7efa-4e8f-b7ab-15c15f62a698" />
+
 <img width="534" height="307" alt="image" src="https://github.com/user-attachments/assets/9c5f67b3-cb83-48fe-9c06-4b34c2eaf1c0" />
+
 <img width="523" height="307" alt="image" src="https://github.com/user-attachments/assets/745e8b6c-2437-4ab6-91ed-f1649ea78c6d" />
+
 For the Client
 
 
@@ -579,11 +585,17 @@ For the Client
 
 
 #### 2.{variant}=large
+
 For Local Ollama Server
+
 <img width="533" height="294" alt="image" src="https://github.com/user-attachments/assets/d0e24dd8-7865-4dc0-a2e3-4223e279147b" />
+
 <img width="521" height="294" alt="image" src="https://github.com/user-attachments/assets/474ede99-70c6-4218-873f-e98f16a3e69e" />
+
 <img width="533" height="305" alt="image" src="https://github.com/user-attachments/assets/b8465c05-74c6-4265-a140-a3421a39a7ff" />
+
 <img width="523" height="306" alt="image" src="https://github.com/user-attachments/assets/0defbbce-b111-4d1b-a735-e8670e524dbd" />
+
 For the Client
 
 
