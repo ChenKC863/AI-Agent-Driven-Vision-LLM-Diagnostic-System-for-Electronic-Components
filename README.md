@@ -1,7 +1,6 @@
 # AI Agent–Driven Vision–LLM Diagnostic System for Electronic Components
 
-An intelligent diagnostic system that combines visual recognition with Large Language Models (LLMs) to identify and diagnose electronic components from images.
-
+An end-to-end, AI Agent–driven diagnostic system that integrates MobileNetV3-based visual recognition, C++ ONNX Runtime inference, a QLoRA-fine-tuned Qwen3 LLM, and LangGraph orchestration to identify electronic components, generate structured diagnostic guidance, and route low-confidence cases to human review.
 > **Note:** Large Qwen3 GGUF and adapter artifacts are available in the [GitHub Release — artifacts-v1](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/releases).
 
 ---
