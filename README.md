@@ -481,7 +481,7 @@ where {variant} is small or large, and {VARIANT} is small_model or large_model, 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
 
-### 11. Install the LangGraph Agent Dependencies
+### 8. Install the LangGraph Agent Dependencies
 
 Create and activate a Python virtual environment:
 
@@ -505,7 +505,7 @@ python -m pip install -r requirements.txt
 
 > `requirements-cloud-lock.txt` is intended for reproducing the cloud fine-tuning environment and may install packages that are unnecessary for local inference.
 
-### 12. Run the LangGraph Diagnostic Agent
+### 9. Run the LangGraph Diagnostic Agent
 
 Run the complete workflow with the variant-model pipeline:
 
@@ -539,7 +539,7 @@ correct
 
 After the decision, the workflow resumes and produces a policy-normalized JSON diagnostic result.
 
-### 13. Expected Diagnostic Schema
+### 10. Expected Diagnostic Schema
 
 The final diagnostic output follows this structure:
 
@@ -559,5 +559,5 @@ The final diagnostic output follows this structure:
 
 > The diagnostic output is decision support only. Visual classification does not verify component values, continuity, polarity, insulation quality, or electrical functionality.
 
-
+## 🧪 Example Results
 
