@@ -220,7 +220,112 @@ If a model was exported without external tensor data, the corresponding `.onnx.d
 
 The `.onnx` file and its `.onnx.data` file, when present, must remain in the same directory.
 
-### 5. Download the Fine-Tuned Qwen3 Artifacts
+## Stage 1
+
+### 5-1. Configure and Build the C++ Inference Engine
+
+From the project root, configure the project with Ninja:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0"
+```
+
+If CMake cannot locate OpenCV automatically, provide its configuration directory:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0" \
+  -DOpenCV_DIR="C:/path/to/opencv/lib/cmake/opencv4"
+```
+
+Build the executable:
+
+```bash
+cmake --build build
+```
+
+The generated executable should be located at:
+
+```text
+build/inference.exe
+```
+
+### 5-2. Run Single-Image Inference
+
+Run the Small vision model:
+
+```bash
+./build/inference.exe \
+  ./model/component_classifier_small.onnx \
+  ./test/Inductor/example.jpg
+```
+
+Run the Large vision model:
+
+```bash
+./build/inference.exe \
+  ./model/component_classifier_large.onnx \
+  ./test/Inductor/example.jpg
+```
+
+Replace the example image path with an existing `.jpg`, `.jpeg`, or other supported image file.
+
+The program outputs:
+
+* Predicted component class
+* Confidence score
+* Probabilities for all four classes
+* ONNX inference latency in milliseconds
+* Confidence bar chart
+* LLM-generated diagnostic guidance
+* Deterministic fallback output if the LLM request fails
+
+### 5-3. Export Predictions in Batch Mode
+
+Place the local dataset under the expected split structure:
+
+```text
+dataset_root/
+├── train/
+├── val/
+└── test/
+```
+
+Each split should contain the four component class directories.
+
+Run batch export with the Small model:
+
+```bash
+./build/inference.exe \
+  --batch-csv \
+  ./model/component_classifier_small.onnx \
+  ./dataset_root
+```
+
+Run batch export with the Large model:
+
+```bash
+./build/inference.exe \
+  --batch-csv \
+  ./model/component_classifier_large.onnx \
+  ./dataset_root
+```
+
+The generated files are:
+
+```text
+vision_predictions_small_model.csv
+vision_predictions_large_model.csv
+```
+
+These CSV files contain the true label, predicted label, confidence, class probabilities, and dataset split for each image.
+
+## Stage2
+
+### 6. Download the Fine-Tuned Qwen3 Artifacts
 
 Download the required GGUF and adapter artifacts from the [artifacts-v1 GitHub Release](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/releases).
 
@@ -358,7 +463,7 @@ curl http://127.0.0.1:11434/v1/chat/completions \
     "messages": [
       {
         "role": "user",
-        "content": "Return valid JSON only. Vision model result: image_path={IMAGE_PATH}, model_variant={VARIANT}, predicted_class={PREDICTED_CLASS}, confidence={CONFIDENCE}, confidence_threshold={CONFIDENCE_THRESHOLD}, probabilities: Inductor={PROBABILITY_of_INDUCTOR}, Resistor={PROBABILITY_ of_RESISTOR}, Transformer={PROBABILITY_ of_TRANSFORMER}, solenoid={PROBABILITY_ of_SOLENOID}."
+        "content": "Return valid JSON only. Vision model result: image_path={IMAGE_PATH}, model_variant={VARIANT}, predicted_class={PREDICTED_CLASS}, confidence={CONFIDENCE}, confidence_threshold={CONFIDENCE_THRESHOLD}, probabilities: Inductor={PROBABILITY_of_INDUCTOR}, Resistor={PROBABILITY_of_RESISTOR}, Transformer={PROBABILITY_of_TRANSFORMER}, solenoid={PROBABILITY_of_SOLENOID}."
       }
     ],
     "temperature": 0,
@@ -370,106 +475,6 @@ where {variant} is small or large, and {VARIANT} is small_model or large_model, 
 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
-### 8. Configure and Build the C++ Inference Engine
-
-From the project root, configure the project with Ninja:
-
-```bash
-cmake -S . -B build -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0"
-```
-
-If CMake cannot locate OpenCV automatically, provide its configuration directory:
-
-```bash
-cmake -S . -B build -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0" \
-  -DOpenCV_DIR="C:/path/to/opencv/lib/cmake/opencv4"
-```
-
-Build the executable:
-
-```bash
-cmake --build build
-```
-
-The generated executable should be located at:
-
-```text
-build/inference.exe
-```
-
-### 9. Run Single-Image Inference
-
-Run the Small vision model:
-
-```bash
-./build/inference.exe \
-  ./model/component_classifier_small.onnx \
-  ./test/Inductor/example.jpg
-```
-
-Run the Large vision model:
-
-```bash
-./build/inference.exe \
-  ./model/component_classifier_large.onnx \
-  ./test/Inductor/example.jpg
-```
-
-Replace the example image path with an existing `.jpg`, `.jpeg`, or other supported image file.
-
-The program outputs:
-
-* Predicted component class
-* Confidence score
-* Probabilities for all four classes
-* ONNX inference latency in milliseconds
-* Confidence bar chart
-* LLM-generated diagnostic guidance
-* Deterministic fallback output if the LLM request fails
-
-### 10. Export Predictions in Batch Mode
-
-Place the local dataset under the expected split structure:
-
-```text
-dataset_root/
-├── train/
-├── val/
-└── test/
-```
-
-Each split should contain the four component class directories.
-
-Run batch export with the Small model:
-
-```bash
-./build/inference.exe \
-  --batch-csv \
-  ./model/component_classifier_small.onnx \
-  ./dataset_root
-```
-
-Run batch export with the Large model:
-
-```bash
-./build/inference.exe \
-  --batch-csv \
-  ./model/component_classifier_large.onnx \
-  ./dataset_root
-```
-
-The generated files are:
-
-```text
-vision_predictions_small_model.csv
-vision_predictions_large_model.csv
-```
-
-These CSV files contain the true label, predicted label, confidence, class probabilities, and dataset split for each image.
 
 ### 11. Install the LangGraph Agent Dependencies
 
