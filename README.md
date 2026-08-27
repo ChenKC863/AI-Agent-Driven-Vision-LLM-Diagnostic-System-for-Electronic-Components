@@ -560,7 +560,7 @@ The final diagnostic output follows this structure:
 > The diagnostic output is decision support only. Visual classification does not verify component values, continuity, polarity, insulation quality, or electrical functionality.
 
 ## 🧪 Example Results
-Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
+Here, we show only for the "electronics-qwen3-4b-instruct-2507-{variant}" and "llama3.2:1b"
 
 ### Fine-tuned LLM Artifact
 #### 1.{variant}=small
