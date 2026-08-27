@@ -136,7 +136,7 @@ Four_electronic_components/
 ├── electronics_test_{variant}_model.jsonl
 └── vision_predictions_{variant}_model.csv
 ```
-where {variant} is large or small.
+where {variant} is small or large.
 
 ---
 
@@ -243,7 +243,7 @@ cd qwen3-4b-instruct-2507-{variant}_model-artifacts
 sha256sum -c SHA256SUMS.txt
 cd ..
 ```
-where {variant} is large or small.
+where {variant} is small or large.
 
 A valid package should report `OK` for every file listed in `SHA256SUMS.txt`.
 
@@ -280,7 +280,7 @@ cd qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf
 
 ollama create electronics-qwen3-4b-instruct-2507-{variant} -f Modelfile
 ```
-where {variant} is large or small.
+where {variant} is small or large.
 
 
 Confirm that both models are registered:
@@ -329,23 +329,44 @@ taskkill //IM ollama_llama_server.exe //F
 
 ### 7-2. Test the Ollama Connection
 
-Run a basic connection test from another terminal:
+For Local Ollama Server, 
+```bash
+ollama run electronics-qwen3-4b-instruct-2507-{variant}
+>>> Return valid JSON only. No markdown. No explanation.
+Vision model result:
+image_path={IMAGE_PATH}
+model_variant={MODEL_VARIANT}
+predicted_class={PREDICTED_CLASS}
+confidence={CONFIDENCE}
+confidence_threshold={CONFIDENCE_THRESHOLD}
+class_probabilities:
+Inductor={PROBABILITY_OF_INDUCTOR}
+Resistor={PROBABILITY_OF_RESISTOR}
+Transformer={PROBABILITY_OF_TRANSFORMER}
+solenoid={PROBABILITY_OF_SOLENOID}
+```
+where {MODEL_VARIANT} is small_model or large_model.
+
+
+Then we run a smoke curl test from the Client Server:
 
 ```bash
 curl http://127.0.0.1:11434/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{
-    "model": "electronics-qwen3-4b-instruct-2507-large",
+  -d "{
+    "model": "electronics-qwen3-4b-instruct-2507-{variant}",
     "messages": [
       {
         "role": "user",
-        "content": "Return valid JSON only. No Markdown. Vision model result: predicted_class=Inductor, confidence=0.90, confidence_threshold=0.70."
+        "content": "Return valid JSON only. Vision model result: image_path={IMAGE_PATH}, model_variant={VARIANT}, predicted_class={PREDICTED_CLASS}, confidence={CONFIDENCE}, confidence_threshold={CONFIDENCE_THRESHOLD}, probabilities: Inductor={PROBABILITY_of_INDUCTOR}, Resistor={PROBABILITY_ of_RESISTOR}, Transformer={PROBABILITY_ of_TRANSFORMER}, solenoid={PROBABILITY_ of_SOLENOID}."
       }
     ],
     "temperature": 0,
     "stream": false
-  }'
+  }’
+
 ```
+where {variant} is small or large, and {VARIANT} is small_model or large_model, respectively. If the version of model is “llama3.2:1b”, please replace "electronics-qwen3-4b-instruct-2507-{VARIANT%_model}" by “llama3.2:1b”.
 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
