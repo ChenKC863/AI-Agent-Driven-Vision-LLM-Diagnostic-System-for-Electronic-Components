@@ -71,25 +71,25 @@ flowchart TD
 
 The project covers the complete AI lifecycle:
 
-1. **Image classification**  
+1.) **Image classification**  
    MobileNetV3-Small and MobileNetV3-Large models are trained using PyTorch transfer learning. Training uses on-the-fly data augmentation, label smoothing, weight decay, learning-rate scheduling, early stopping, and a two-stage fine-tuning strategy.
 
-2. **Portable C++ inference**  
+2.) **Portable C++ inference**  
    The trained models are exported to ONNX and executed locally through a C++17 inference engine using ONNX Runtime and OpenCV. The engine performs image preprocessing, classification, latency measurement, confidence visualization, JSON output, and batch CSV export.
 
-3. **Domain-specific LLM fine-tuning**  
+3.) **Domain-specific LLM fine-tuning**  
    Vision predictions are converted into conversational JSONL datasets and used to fine-tune `Qwen3-4B-Instruct-2507` with QLoRA, Unsloth, PEFT, and TRL `SFTTrainer`. The fine-tuned model is exported to the GGUF `Q4_K_M` format for local deployment through Ollama.
 
-4. **Structured diagnostic output**  
+4.) **Structured diagnostic output**  
    The LLM produces a validated JSON object containing the predicted component, confidence score, review decision, component function, recommended operator action, and system limitations.
 
-5. **Confidence-based human review**  
+5.) **Confidence-based human review**  
    A fixed confidence threshold of **0.70** controls whether a prediction can proceed automatically. Low-confidence cases are routed to an operator, who can approve, reject, or correct the prediction.
 
-6. **LangGraph orchestration**  
+6.) **LangGraph orchestration**  
    LangGraph manages workflow state, conditional routing, human-review interruptions, local knowledge retrieval, LLM calls, and deterministic fallback behavior.
 
-7. **Reliable fallback and policy enforcement**  
+7.) **Reliable fallback and policy enforcement**  
    A local component knowledge base provides verified component functions, operator actions, and limitations. If the LLM is unavailable or returns malformed JSON, the system generates a deterministic diagnostic response instead. Final normalization prevents the LLM from contradicting the confidence policy.
 
 
