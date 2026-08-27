@@ -366,7 +366,7 @@ curl http://127.0.0.1:11434/v1/chat/completions \
   }’
 
 ```
-where {variant} is small or large, and {VARIANT} is small_model or large_model, respectively. If the version of model is “llama3.2:1b”, please replace "electronics-qwen3-4b-instruct-2507-{VARIANT%_model}" by “llama3.2:1b”.
+where {variant} is small or large, and {VARIANT} is small_model or large_model, respectively. If the version of model is “llama3.2:1b”, please replace "electronics-qwen3-4b-instruct-2507-{variant}" by “llama3.2:1b”.
 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
