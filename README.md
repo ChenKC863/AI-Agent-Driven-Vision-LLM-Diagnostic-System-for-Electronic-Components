@@ -383,7 +383,7 @@ These settings provide deterministic output, sufficient context length, and a co
 
 ### 6-3. Import the Fine-Tuned Models into Ollama
 
-Import the variant-model:
+Import the {variant}-model:
 
 ```bash
 cd qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf
@@ -458,7 +458,7 @@ solenoid={PROBABILITY_OF_SOLENOID}
 where {MODEL_VARIANT} is small_model or large_model.
 
 
-Then we run a smoke curl test from the Client Server:
+Then we run a smoke curl test from the Client:
 
 ```bash
 curl http://127.0.0.1:11434/v1/chat/completions \
@@ -560,4 +560,10 @@ The final diagnostic output follows this structure:
 > The diagnostic output is decision support only. Visual classification does not verify component values, continuity, polarity, insulation quality, or electrical functionality.
 
 ## 🧪 Example Results
+Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
+
+1.{variant}=small
+
+
+
 
