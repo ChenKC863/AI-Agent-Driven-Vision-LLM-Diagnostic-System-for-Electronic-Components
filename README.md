@@ -325,6 +325,11 @@ These CSV files contain the true label, predicted label, confidence, class proba
 
 ## Stage2
 
+To see for running the workflow "TRL + PEFT + Unsloth core configuration"->"save adapter"->"Converted to Ollama's real GGUF (food) in detail, please click
+[ai-visual-recognition-and-classification-system.ipynb](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/blob/main/ai-visual-recognition-and-classification-system.ipynb) then find the string "!pip install -U unsloth trl peft datasets accelerate"
+
+## Stage3
+
 ### 6. Download the Fine-Tuned Qwen3 Artifacts
 
 Download the required GGUF and adapter artifacts from the [artifacts-v1 GitHub Release](https://github.com/ChenKC863/AI-Visual-Recognition-and-LLM-Intelligent-Diagnostic-System-for-Electronic-Components/releases).
