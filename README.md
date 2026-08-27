@@ -234,7 +234,7 @@ qwen3-4b-instruct-2507-{variant}_model-artifacts/
 ```
 where {variant} is large or small.
 
-### 6. Verify Artifact Integrity
+### 6-1. Verify Artifact Integrity
 
 Verify the downloaded artifacts before deployment:
 
@@ -247,11 +247,11 @@ where {variant} is large or small.
 
 A valid package should report `OK` for every file listed in `SHA256SUMS.txt`.
 
-### 7. Check the Ollama Modelfile
+### 6-2. Check the Ollama Modelfile
 
 Each `gguf_gguf/Modelfile` should contain:
 
-```text
+```bash
 FROM ./qwen3-4b-instruct-2507.Q4_K_M.gguf
 
 PARAMETER temperature 0
@@ -259,9 +259,19 @@ PARAMETER num_ctx 2048
 PARAMETER num_predict 256
 ```
 
+If the Modelfile is missing, create it:
+```bash
+cd Four_electronic_components/qwen3-4b-instruct-2507_large_model-artifacts/gguf_gguf
+cat > Modelfile <<'any words'
+FROM ./qwen3-4b-instruct-2507.Q4_K_M.gguf
+PARAMETER temperature 0
+PARAMETER num_ctx 2048
+PARAMETER num_predict 256
+any words
+```
 These settings provide deterministic output, sufficient context length, and a controlled generation limit.
 
-### 8. Import the Fine-Tuned Models into Ollama
+### 7. Import the Fine-Tuned Models into Ollama
 
 Import the variant-model:
 
@@ -285,7 +295,7 @@ For comparison with the generic baseline model, optionally download:
 ollama pull llama3.2:1b
 ```
 
-### 9. Start the Local Ollama Server
+### 8. Start the Local Ollama Server
 
 Open a separate MSYS2 terminal and start Ollama:
 
@@ -317,7 +327,7 @@ taskkill //IM ollama.exe //F
 taskkill //IM ollama_llama_server.exe //F
 ```
 
-### 10. Test the Ollama Connection
+### 9. Test the Ollama Connection
 
 Run a basic connection test from another terminal:
 
@@ -339,7 +349,7 @@ curl http://127.0.0.1:11434/v1/chat/completions \
 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
-### 11. Configure and Build the C++ Inference Engine
+### 10. Configure and Build the C++ Inference Engine
 
 From the project root, configure the project with Ninja:
 
@@ -370,7 +380,7 @@ The generated executable should be located at:
 build/inference.exe
 ```
 
-### 12. Run Single-Image Inference
+### 11. Run Single-Image Inference
 
 Run the Small vision model:
 
@@ -400,7 +410,7 @@ The program outputs:
 * LLM-generated diagnostic guidance
 * Deterministic fallback output if the LLM request fails
 
-### 13. Export Predictions in Batch Mode
+### 12. Export Predictions in Batch Mode
 
 Place the local dataset under the expected split structure:
 
@@ -440,7 +450,7 @@ vision_predictions_large_model.csv
 
 These CSV files contain the true label, predicted label, confidence, class probabilities, and dataset split for each image.
 
-### 14. Install the LangGraph Agent Dependencies
+### 13. Install the LangGraph Agent Dependencies
 
 Create and activate a Python virtual environment:
 
@@ -464,7 +474,7 @@ python -m pip install -r requirements.txt
 
 > `requirements-cloud-lock.txt` is intended for reproducing the cloud fine-tuning environment and may install packages that are unnecessary for local inference.
 
-### 15. Run the LangGraph Diagnostic Agent
+### 14. Run the LangGraph Diagnostic Agent
 
 Run the complete workflow with the variant-model pipeline:
 
@@ -498,7 +508,7 @@ correct
 
 After the decision, the workflow resumes and produces a policy-normalized JSON diagnostic result.
 
-### 16. Expected Diagnostic Schema
+### 15. Expected Diagnostic Schema
 
 The final diagnostic output follows this structure:
 
