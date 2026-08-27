@@ -38,7 +38,10 @@ Electronic components/
 
 ---
 ## 📌 Overview
-This project presents an end-to-end intelligent diagnostic system for electronic components, combining computer vision, C++ inference, a fine-tuned Large Language Model (LLM), and human-in-the-loop workflow orchestration. The system classifies component images, evaluates prediction confidence, and produces structured diagnostic guidance for manufacturing operators.
+
+This project presents an end-to-end AI Agent–driven diagnostic system for electronic components, integrating computer vision, C++ ONNX inference, a domain-fine-tuned Large Language Model (LLM), local knowledge retrieval, and LangGraph-based human-in-the-loop orchestration.
+
+The system classifies component images, evaluates prediction confidence, retrieves verified component knowledge, generates structured diagnostic guidance, and conditionally routes low-confidence cases to human review.
 
 The current prototype supports four component classes:
 
@@ -57,42 +60,47 @@ A balanced working dataset of **1,040 images** was used, with **260 images per c
 
 ```mermaid
 flowchart TD
-    A["Component Image"] --> B["MobileNetV3 Classifier"]
-    B --> C["C++ ONNX Runtime"]
-    C -->|Set the threshold of confidence to be 0.70| D{"Confidence ≥ 0.70?"}
-    D -->|Yes| E["LLM Diagnostic Generation"]
-    D -->|No| F["Human Review"]
-    F --> E
-    E --> G["Policy-Normalized JSON Output"]
-    E -. "LLM failure" .-> H["Deterministic Fallback"]
-    H --> G
+    A["Component Image"] --> B["LangGraph Agent"]
+
+    B --> C["classify_component Tool<br/>C++17 + ONNX Runtime + MobileNetV3"]
+    C --> D["get_component_knowledge<br/>Verified Local Knowledge Base"]
+
+    D --> E{"Confidence < 0.70?"}
+
+    E -->|No| F["LLM Response<br/>Fine-tuned Qwen3 via Local Ollama"]
+    E -->|Yes| G["Human Review<br/>Approve / Reject / Correct"]
+
+    G --> F
+
+    F --> H["Policy Normalization"]
+    H --> I["Structured Diagnostic JSON"]
+
+    F -. "Timeout / Invalid JSON / LLM Failure" .-> J["Deterministic Fallback"]
+    J --> H
 ```
 
 The project covers the complete AI lifecycle:
 
-1.) **Image classification**  
-   MobileNetV3-Small and MobileNetV3-Large models are trained using PyTorch transfer learning. Training uses on-the-fly data augmentation, label smoothing, weight decay, learning-rate scheduling, early stopping, and a two-stage fine-tuning strategy.
+1.) Image classification
+MobileNetV3-Small and MobileNetV3-Large models are trained using PyTorch transfer learning. Training uses on-the-fly data augmentation, label smoothing, weight decay, learning-rate scheduling, early stopping, and a two-stage fine-tuning strategy.
 
-2.) **Portable C++ inference**  
-   The trained models are exported to ONNX and executed locally through a C++17 inference engine using ONNX Runtime and OpenCV. The engine performs image preprocessing, classification, latency measurement, confidence visualization, JSON output, and batch CSV export.
+2.) Portable C++ inference
+The trained vision models are exported to ONNX and executed locally through a C++17 inference engine using ONNX Runtime and OpenCV. The engine performs image preprocessing, classification, latency measurement, confidence visualization, structured JSON output, and batch CSV export.
 
-3.) **Domain-specific LLM fine-tuning**  
-   Vision predictions are converted into conversational JSONL datasets and used to fine-tune `Qwen3-4B-Instruct-2507` with QLoRA, Unsloth, PEFT, and TRL `SFTTrainer`. The fine-tuned model is exported to the GGUF `Q4_K_M` format for local deployment through Ollama.
+3.) Domain-specific LLM fine-tuning
+Vision predictions are converted into conversational JSONL datasets and used to fine-tune Qwen3-4B-Instruct-2507 with QLoRA, Unsloth, PEFT, and TRL SFTTrainer. The fine-tuned model is exported to GGUF Q4_K_M format and deployed locally through Ollama.
 
-4.) **Structured diagnostic output**  
-   The LLM produces a validated JSON object containing the predicted component, confidence score, review decision, component function, recommended operator action, and system limitations.
+4.) AI Agent orchestration
+LangGraph StateGraph orchestrates vision classification, verified knowledge retrieval, confidence-based routing, human-review interrupts, local LLM inference, and deterministic fallback behavior.
 
-5.) **Confidence-based human review**  
-   A fixed confidence threshold of **0.70** controls whether a prediction can proceed automatically. Low-confidence cases are routed to an operator, who can approve, reject, or correct the prediction.
+5.) Confidence-based human review
+A fixed confidence threshold of 0.70 determines whether a prediction can proceed automatically. Predictions below the threshold are routed to human review, where the operator can approve, reject, or correct the predicted component.
 
-6.) **LangGraph orchestration**  
-   LangGraph manages workflow state, conditional routing, human-review interruptions, local knowledge retrieval, LLM calls, and deterministic fallback behavior.
+6.) Structured diagnostic generation
+The local LLM generates structured diagnostic JSON containing the predicted component, vision confidence, review requirement, component function, recommended operator action, and system limitations.
 
-7.) **Reliable fallback and policy enforcement**  
-   A local component knowledge base provides verified component functions, operator actions, and limitations. If the LLM is unavailable or returns malformed JSON, the system generates a deterministic diagnostic response instead. Final normalization prevents the LLM from contradicting the confidence policy.
-
-
-
+7.) Reliable fallback and policy enforcement
+A verified local component knowledge base supports both LLM prompting and deterministic fallback. If the LLM times out or returns invalid JSON, the system constructs a fallback diagnostic response. Final policy normalization prevents the LLM from overriding confidence and human-review rules.
 
 
 ## Project Structure
