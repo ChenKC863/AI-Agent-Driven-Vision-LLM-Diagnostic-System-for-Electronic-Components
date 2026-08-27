@@ -1,4 +1,4 @@
-# AI Visual Recognition & LLM Intelligent Diagnostic System for Electronic Components
+# AI Agent–Driven Vision–LLM Diagnostic System for Electronic Components
 
 An intelligent diagnostic system that combines visual recognition with Large Language Models (LLMs) to identify and diagnose electronic components from images.
 
