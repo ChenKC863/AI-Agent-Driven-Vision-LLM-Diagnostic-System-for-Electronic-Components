@@ -234,13 +234,6 @@ qwen3-4b-instruct-2507-{variant}_model-artifacts/
 ```
 where {variant} is large or small.
 
-If the GGUF model was downloaded as multiple parts, reconstruct it before importing it into Ollama:
-
-```bash
-cat qwen3-4b-instruct-2507-{variant}.Q4_K_M.gguf.part-* \
-  > qwen3-4b-instruct-2507-{variant}_model-artifacts/gguf_gguf/qwen3-4b-instruct-2507.Q4_K_M.gguf
-```
-
 ### 6. Verify Artifact Integrity
 
 Verify the downloaded artifacts before deployment:
