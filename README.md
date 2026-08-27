@@ -295,7 +295,7 @@ For comparison with the generic baseline model, optionally download:
 ollama pull llama3.2:1b
 ```
 
-### 8. Start the Local Ollama Server
+### 7-1. Start the Local Ollama Server
 
 Open a separate MSYS2 terminal and start Ollama:
 
@@ -327,7 +327,7 @@ taskkill //IM ollama.exe //F
 taskkill //IM ollama_llama_server.exe //F
 ```
 
-### 9. Test the Ollama Connection
+### 7-2. Test the Ollama Connection
 
 Run a basic connection test from another terminal:
 
@@ -349,7 +349,7 @@ curl http://127.0.0.1:11434/v1/chat/completions \
 
 A successful request returns an OpenAI-compatible response containing the generated diagnostic output.
 
-### 10. Configure and Build the C++ Inference Engine
+### 8. Configure and Build the C++ Inference Engine
 
 From the project root, configure the project with Ninja:
 
@@ -380,7 +380,7 @@ The generated executable should be located at:
 build/inference.exe
 ```
 
-### 11. Run Single-Image Inference
+### 9. Run Single-Image Inference
 
 Run the Small vision model:
 
@@ -410,7 +410,7 @@ The program outputs:
 * LLM-generated diagnostic guidance
 * Deterministic fallback output if the LLM request fails
 
-### 12. Export Predictions in Batch Mode
+### 10. Export Predictions in Batch Mode
 
 Place the local dataset under the expected split structure:
 
@@ -450,7 +450,7 @@ vision_predictions_large_model.csv
 
 These CSV files contain the true label, predicted label, confidence, class probabilities, and dataset split for each image.
 
-### 13. Install the LangGraph Agent Dependencies
+### 11. Install the LangGraph Agent Dependencies
 
 Create and activate a Python virtual environment:
 
@@ -474,7 +474,7 @@ python -m pip install -r requirements.txt
 
 > `requirements-cloud-lock.txt` is intended for reproducing the cloud fine-tuning environment and may install packages that are unnecessary for local inference.
 
-### 14. Run the LangGraph Diagnostic Agent
+### 12. Run the LangGraph Diagnostic Agent
 
 Run the complete workflow with the variant-model pipeline:
 
@@ -508,7 +508,7 @@ correct
 
 After the decision, the workflow resumes and produces a policy-normalized JSON diagnostic result.
 
-### 15. Expected Diagnostic Schema
+### 13. Expected Diagnostic Schema
 
 The final diagnostic output follows this structure:
 
