@@ -260,7 +260,7 @@ Run the Small vision model:
 ```bash
 ./build/inference.exe \
   ./model/component_classifier_small.onnx \
-  ./test/Inductor/example.jpg
+  ./test/class_name/example.jpg
 ```
 
 Run the Large vision model:
@@ -268,7 +268,7 @@ Run the Large vision model:
 ```bash
 ./build/inference.exe \
   ./model/component_classifier_large.onnx \
-  ./test/Inductor/example.jpg
+  ./test/class_name/example.jpg
 ```
 
 Replace the example image path with an existing `.jpg`, `.jpeg`, or other supported image file.
