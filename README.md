@@ -573,3 +573,20 @@ Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
 
 
 
+
+
+### LangGraph Diagnosis
+1.{variant}=small
+
+
+
+
+
+2.{variant}=large
+
+
+
+
+
+
+
