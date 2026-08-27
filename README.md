@@ -563,26 +563,30 @@ The final diagnostic output follows this structure:
 Here, we show only for the model "electronics-qwen3-4b-instruct-2507-{variant}"
 
 ### Fine-tuned LLM Artifact
-1.{variant}=small
+#### 1.{variant}=small
+For Local Ollama Server
+
+
+For the Client
 
 
 
+#### 2.{variant}=large
+For Local Ollama Server
 
 
-2.{variant}=large
-
-
+For the Client
 
 
 
 ### LangGraph Diagnosis
-1.{variant}=small
+#### 1.{variant}=small
 
 
 
 
 
-2.{variant}=large
+#### 2.{variant}=large
 
 
 
