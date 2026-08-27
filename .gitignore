@@ -59,9 +59,9 @@ buildlog.txt
 
 # Local datasets
 # Keep public demo samples in a small examples/ or docs/assets/ folder instead.
-train/
-val/
-test/
+# train/
+# val/
+# test/
 
 # ONNX Runtime / vision model binaries
 # These files are usually too large for a normal GitHub repository.
