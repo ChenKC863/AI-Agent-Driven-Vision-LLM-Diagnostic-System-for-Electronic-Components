@@ -271,7 +271,7 @@ any words
 ```
 These settings provide deterministic output, sufficient context length, and a controlled generation limit.
 
-### 7. Import the Fine-Tuned Models into Ollama
+### 6-3. Import the Fine-Tuned Models into Ollama
 
 Import the variant-model:
 
