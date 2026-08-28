@@ -584,11 +584,13 @@ For Local Ollama Server
 
 For the Client
 
+<img width="1160" height="327" alt="image" src="https://github.com/user-attachments/assets/109a510b-62b8-46b7-aa46-69753d8e5fc7" />
 
+<img width="1161" height="319" alt="image" src="https://github.com/user-attachments/assets/d991397f-f238-4bfa-8293-5ef6b2766552" />
 
+<img width="1160" height="326" alt="image" src="https://github.com/user-attachments/assets/56a876a8-8b5d-42fb-99c2-62b3909cb99f" />
 
-
-
+<img width="1161" height="320" alt="image" src="https://github.com/user-attachments/assets/dff9941e-b1c4-4a9e-9d18-44fc40a5a99d" />
 
 
 #### 2.{variant}=large
@@ -605,11 +607,13 @@ For Local Ollama Server
 
 For the Client
 
+<img width="1160" height="327" alt="image" src="https://github.com/user-attachments/assets/a1797c7e-6ddc-4b83-89ae-179c90a737ff" />
 
+<img width="1161" height="320" alt="image" src="https://github.com/user-attachments/assets/43645d8e-6cf8-4ff0-80b1-4a5c1fca1fa9" />
 
+<img width="1162" height="327" alt="image" src="https://github.com/user-attachments/assets/de1d1347-47e0-47c0-bbcf-82a632f9be54" />
 
-
-
+<img width="1161" height="318" alt="image" src="https://github.com/user-attachments/assets/7a30e59a-04ba-4076-8dbb-8ef363a496e2" />
 
 
 ### LangGraph Diagnosis
