@@ -619,15 +619,20 @@ For the Client
 ### LangGraph Diagnosis
 #### 1.{variant}=small
 
+<img width="1160" height="392" alt="image" src="https://github.com/user-attachments/assets/23bcb6ea-963b-4957-9e29-079ab364d208" />
 
+<img width="1161" height="397" alt="image" src="https://github.com/user-attachments/assets/7fb31d71-e216-4d5a-a0e0-83f1de93e549" />
 
+<img width="1164" height="634" alt="image" src="https://github.com/user-attachments/assets/4b3acd7b-0eae-4af8-8eea-22a54fbd37a5" />
 
+<img width="1161" height="399" alt="image" src="https://github.com/user-attachments/assets/d6766956-e05d-4676-bb40-c06f0244fe21" />
 
 #### 2.{variant}=large
 
+<img width="1161" height="399" alt="image" src="https://github.com/user-attachments/assets/660791ec-4a63-42ee-a279-e89fd7ae2983" />
 
+<img width="1160" height="398" alt="image" src="https://github.com/user-attachments/assets/235e5033-93a7-4a1e-a0e3-5bb1c26c2ae1" />
 
+<img width="1161" height="398" alt="image" src="https://github.com/user-attachments/assets/ecfc5992-1166-4d58-bfb4-7442c7c0dcea" />
 
-
-
-
+<img width="1162" height="397" alt="image" src="https://github.com/user-attachments/assets/2df7e9a7-2869-4bfc-8990-51cf91679324" />
