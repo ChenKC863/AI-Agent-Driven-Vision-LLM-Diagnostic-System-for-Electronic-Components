@@ -256,12 +256,12 @@ cmake -S . -B build -G Ninja \
   -DOpenCV_DIR="/ucrt64/lib/cmake/opencv4"
 ```
 
-Replace `C:/onnxruntime/onnxruntime-win-x64-1.27.0` with the actual ONNX Runtime folder on your machine. For example, if the SDK is extracted to `E:/聯成電腦/onnxruntime-win-x64-1.27.0`, use:
+Replace `C:/onnxruntime/onnxruntime-win-x64-1.27.0` with the actual ONNX Runtime folder on your machine. For example, if the SDK is extracted to `my_project_folder/onnxruntime-win-x64-1.27.0`, use:
 
 ```bash
 cmake -S . -B build -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
-  -DONNXRUNTIME_ROOT="E:/聯成電腦/onnxruntime-win-x64-1.27.0" \
+  -DONNXRUNTIME_ROOT="my_project_folder/onnxruntime-win-x64-1.27.0" \
   -DOpenCV_DIR="/ucrt64/lib/cmake/opencv4"
 ```
 
