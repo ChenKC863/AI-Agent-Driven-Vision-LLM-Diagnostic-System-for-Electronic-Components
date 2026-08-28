@@ -172,19 +172,33 @@ cd Four_electronic_components
 
 ### 3. Install the C++ Build Dependencies
 
-Install the required MSYS2 packages:
+Use the **MSYS2 UCRT64** terminal for the C++ workflow.
+
+> If MSYS2 was installed through the CLANG64 package/environment, that is fine. However, the commands below must be executed from **MSYS2 UCRT64**, because this project uses the UCRT64 package prefix, compiler, OpenCV path, and runtime DLLs.
+
+Install the required UCRT64 packages:
 
 ```bash
 pacman -Syu
 
 pacman -S --needed \
-  mingw-w64-ucrt-x86_64-toolchain \
+  mingw-w64-ucrt-x86_64-gcc \
   mingw-w64-ucrt-x86_64-cmake \
   mingw-w64-ucrt-x86_64-ninja \
   mingw-w64-ucrt-x86_64-opencv \
   mingw-w64-ucrt-x86_64-curl \
   mingw-w64-ucrt-x86_64-nlohmann-json
 ```
+
+Confirm that the UCRT64 tools are being used:
+
+```bash
+which c++
+which cmake
+which ninja
+```
+
+The paths should point to `/ucrt64/bin/...`.
 
 Download the Windows x64 ONNX Runtime C++ SDK from the official [ONNX Runtime releases](https://github.com/microsoft/onnxruntime/releases) and extract it to a local directory, for example:
 
@@ -224,21 +238,24 @@ The `.onnx` file and its `.onnx.data` file, when present, must remain in the sam
 
 ### 5-1. Configure and Build the C++ Inference Engine
 
-From the project root, configure the project with Ninja:
+From the project root, configure the project with Ninja in the **MSYS2 UCRT64** terminal:
 
 ```bash
-cmake -S . -B build -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0"
-```
+rm -rf build
 
-If CMake cannot locate OpenCV automatically, provide its configuration directory:
-
-```bash
 cmake -S . -B build -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DONNXRUNTIME_ROOT="C:/onnxruntime/onnxruntime-win-x64-1.27.0" \
-  -DOpenCV_DIR="C:/path/to/opencv/lib/cmake/opencv4"
+  -DOpenCV_DIR="/ucrt64/lib/cmake/opencv4"
+```
+
+Replace `C:/onnxruntime/onnxruntime-win-x64-1.27.0` with the actual ONNX Runtime folder on your machine. For example, if the SDK is extracted to `E:/聯成電腦/onnxruntime-win-x64-1.27.0`, use:
+
+```bash
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DONNXRUNTIME_ROOT="E:/聯成電腦/onnxruntime-win-x64-1.27.0" \
+  -DOpenCV_DIR="/ucrt64/lib/cmake/opencv4"
 ```
 
 Build the executable:
@@ -246,6 +263,8 @@ Build the executable:
 ```bash
 cmake --build build
 ```
+
+If CMake reports that Ninja, the C compiler, or the C++ compiler cannot be found, reopen the **MSYS2 UCRT64** terminal and configure again from a clean `build/` folder.
 
 The generated executable should be located at:
 
