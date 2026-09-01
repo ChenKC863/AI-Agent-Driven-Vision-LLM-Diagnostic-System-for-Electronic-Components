@@ -80,13 +80,11 @@ The diagram below illustrates the exact state machine implemented in the agent:
 | **7** | **Policy Normalization** | The `normalize_diagnostic_with_policy()` function **overwrites** critical fields (e.g., `requires_human_review`, `function`) to guarantee that the LLM cannot override the deterministic confidence threshold or the human review decision. |
 | **8** | **Structured Output** | The workflow ends by emitting a compliant, 8-field diagnostic JSON ready for operator consumption. |
 
----
-
 **Tech Stack Integration:**
 - **LangChain Core**: Provides the `@tool` abstraction for wrapping C++ executables and JSON knowledge retrieval.
 - **LangGraph**: Handles the stateful graph execution, conditional routing, and persistent `interrupt()`/`resume()` for human oversight.
 - **Ollama**: Serves the locally deployed, fine-tuned GGUF model for low-latency inference.
-
+---
 
 ## Project Structure
 ```text
