@@ -58,26 +58,7 @@ A balanced working dataset of **1,040 images** was used, with **260 images per c
 
 ### System Workflow
 
-```mermaid
-flowchart TD
-    A["Component Image"] --> B["LangGraph Agent"]
-
-    B --> C["classify_component Tool<br/>C++17 + ONNX Runtime + MobileNetV3"]
-    C --> D["get_component_knowledge<br/>Verified Local Knowledge Base"]
-
-    D --> E{"Confidence < 0.70?"}
-
-    E -->|No| F["LLM Response<br/>Fine-tuned Qwen3 via Local Ollama"]
-    E -->|Yes| G["Human Review<br/>Approve / Reject / Correct"]
-
-    G --> F
-
-    F --> H["Policy Normalization"]
-    H --> I["Structured Diagnostic JSON"]
-
-    F -. "Timeout / Invalid JSON / LLM Failure" .-> J["Deterministic Fallback"]
-    J --> H
-```
+<img width="2575" height="1728" alt="langchain-langgraph-diagnostic-workflow" src="https://github.com/user-attachments/assets/11799058-dc9b-469a-b873-14de81c14f9b" />
 
 The project covers the complete AI lifecycle:
 
