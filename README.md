@@ -56,32 +56,56 @@ A balanced working dataset of **1,040 images** was used, with **260 images per c
 - Validation: 156 images
 - Testing: 156 images
 
-### System Workflow
+## LangChain Core + LangGraph Diagnostic Workflow
 
-<img width="2575" height="1728" alt="langchain-langgraph-diagnostic-workflow" src="https://github.com/user-attachments/assets/11799058-dc9b-469a-b873-14de81c14f9b" />
+The system is orchestrated using **LangGraph's `StateGraph`** with **LangChain Core `@tool`** abstractions. The workflow processes a component image through deterministic vision classification, confidence-based routing, optional human-in-the-loop review, and structured LLM-based diagnostic generation.
 
-The project covers the complete AI lifecycle:
+### Workflow Diagram
 
-#### 1.) Image classification
-MobileNetV3-Small and MobileNetV3-Large models are trained using PyTorch transfer learning. Training uses on-the-fly data augmentation, label smoothing, weight decay, learning-rate scheduling, early stopping, and a two-stage fine-tuning strategy.
+The diagram below illustrates the exact state machine implemented in the agent:
 
-#### 2.) Portable C++ inference
-The trained vision models are exported to ONNX and executed locally through a C++17 inference engine using ONNX Runtime and OpenCV. The engine performs image preprocessing, classification, latency measurement, confidence visualization, structured JSON output, and batch CSV export.
+```mermaid
+graph TD
+    Start([START]) --> Image[Component Image]
+    Image --> StateGraph[LangGraph StateGraph Orchestration<br>State • Routing • In-Memory Checkpointing]
+    StateGraph --> Classify[LangChain Core @tool - classify_component<br>C++17 • ONNX Runtime • MobileNetV3]
+    Classify --> Knowledge[LangChain Core @tool - get_component_knowledge<br>Verified Local JSON Knowledge Base]
+    Knowledge --> Decision{Confidence ≥ 0.70?}
+    
+    Decision -- Yes (≥ 0.70) --> LLM[LLM Response Generation<br>Fine-Tuned Qwen3 via Local Ollama]
+    Decision -- No (< 0.70) --> Human[LangGraph interrupt() - Human Review<br>Approve • Reject • Correct<br>Resume with Command(resume=decision)]
+    
+    Human --> LLM
+    LLM --> Policy[Policy Normalization<br>normalize_diagnostic_with_policy()]
+    Policy --> End([END])
 
-#### 3.) Domain-specific LLM fine-tuning
-Vision predictions are converted into conversational JSONL datasets and used to fine-tune Qwen3-4B-Instruct-2507 with QLoRA, Unsloth, PEFT, and TRL SFTTrainer. The fine-tuned model is exported to GGUF Q4_K_M format and deployed locally through Ollama.
+    %% Styling for readability
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef decision fill:#fff,stroke:#333,stroke-width:2px;
+    classDef endpoint fill:#ddd,stroke:#333,stroke-width:2px;
+    class Decision decision;
+    class Start,End endpoint;
+```
 
-#### 4.) AI Agent orchestration
-LangGraph StateGraph orchestrates vision classification, verified knowledge retrieval, confidence-based routing, human-review interrupts, local LLM inference, and deterministic fallback behavior.
+### Step-by-Step Orchestration
 
-#### 5.) Confidence-based human review
-A fixed confidence threshold of 0.70 determines whether a prediction can proceed automatically. Predictions below the threshold are routed to human review, where the operator can approve, reject, or correct the predicted component.
+| Step | Component | Description |
+| :---: | :--- | :--- |
+| **1** | **StateGraph Initialization** | The workflow starts by ingesting the component image and initializing the `ComponentState` (image path, variant, threshold). |
+| **2** | **Vision Classification** | The agent invokes the `classify_component` tool (wrapped with LangChain Core `@tool`). This executes the local C++ ONNX Runtime engine using the trained MobileNetV3 model. |
+| **3** | **Knowledge Retrieval** | The agent calls `get_component_knowledge` to fetch verified component details (function, limitations, operator actions) from the local `component_knowledge.json` file. |
+| **4** | **Confidence Routing** | The system checks if the top confidence score is **≥ 0.70**. <br> - **If YES**: Proceeds directly to LLM generation. <br> - **If NO**: Triggers a `LangGraph.interrupt()` for human review. |
+| **5** | **Human-in-the-Loop (HITL)** | For low-confidence predictions, execution pauses. The operator can **Approve**, **Reject**, or **Correct** the label. The workflow resumes via `Command(resume=decision)`. |
+| **6** | **LLM Response Generation** | The prompt is constructed using the vision results, verified knowledge, and (if applicable) the human decision. The local Ollama server runs the fine-tuned Qwen3-4B model to generate a structured diagnostic JSON. |
+| **7** | **Policy Normalization** | The `normalize_diagnostic_with_policy()` function **overwrites** critical fields (e.g., `requires_human_review`, `function`) to guarantee that the LLM cannot override the deterministic confidence threshold or the human review decision. |
+| **8** | **Structured Output** | The workflow ends by emitting a compliant, 8-field diagnostic JSON ready for operator consumption. |
 
-#### 6.) Structured diagnostic generation
-The local LLM generates structured diagnostic JSON containing the predicted component, vision confidence, review requirement, component function, recommended operator action, and system limitations.
+---
 
-#### 7.) Reliable fallback and policy enforcement
-A verified local component knowledge base supports both LLM prompting and deterministic fallback. If the LLM times out or returns invalid JSON, the system constructs a fallback diagnostic response. Final policy normalization prevents the LLM from overriding confidence and human-review rules.
+**Tech Stack Integration:**
+- **LangChain Core**: Provides the `@tool` abstraction for wrapping C++ executables and JSON knowledge retrieval.
+- **LangGraph**: Handles the stateful graph execution, conditional routing, and persistent `interrupt()`/`resume()` for human oversight.
+- **Ollama**: Serves the locally deployed, fine-tuned GGUF model for low-latency inference.
 
 
 ## Project Structure
