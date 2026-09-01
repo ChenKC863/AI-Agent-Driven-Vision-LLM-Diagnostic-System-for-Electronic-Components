@@ -65,27 +65,80 @@ The system is orchestrated using **LangGraph's `StateGraph`** with **LangChain C
 The diagram below illustrates the exact state machine implemented in the agent:
 
 ```mermaid
-graph TD
-    Start([START]) --> Image[Component Image]
-    Image --> StateGraph[LangGraph StateGraph Orchestration<br>State • Routing • In-Memory Checkpointing]
-    StateGraph --> Classify[LangChain Core @tool - classify_component<br>C++17 • ONNX Runtime • MobileNetV3]
-    Classify --> Knowledge[LangChain Core @tool - get_component_knowledge<br>Verified Local JSON Knowledge Base]
-    Knowledge --> Decision{Confidence ≥ 0.70?}
-    
-    Decision -- Yes (≥ 0.70) --> LLM[LLM Response Generation<br>Fine-Tuned Qwen3 via Local Ollama]
-    Decision -- No (< 0.70) --> Human[LangGraph interrupt() - Human Review<br>Approve • Reject • Correct<br>Resume with Command(resume=decision)]
-    
-    Human --> LLM
-    LLM --> Policy[Policy Normalization<br>normalize_diagnostic_with_policy()]
-    Policy --> End([END])
+flowchart TD
+    START([START])
+    IMAGE[Component Image]
 
-    %% Styling for readability
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
-    classDef decision fill:#fff,stroke:#333,stroke-width:2px;
-    classDef endpoint fill:#ddd,stroke:#333,stroke-width:2px;
-    class Decision decision;
-    class Start,End endpoint;
-```
+    GRAPH["LangGraph StateGraph Orchestration<br/>State • Routing • In-Memory Checkpointing"]
+
+    CLASSIFY["LangChain Core @tool — classify_component<br/>C++17 • ONNX Runtime • MobileNetV3"]
+
+    KNOWLEDGE["LangChain Core @tool — get_component_knowledge<br/>Verified Local JSON Knowledge Base"]
+
+    CONFIDENCE{"Confidence ≥ 0.70?"}
+
+    REVIEW["LangGraph interrupt() — Human Review<br/>Approve • Reject • Correct<br/>Resume with Command(resume=decision)"]
+
+    LLM["LLM Response Generation<br/>Fine-Tuned Qwen3 via Local Ollama"]
+
+    FALLBACK["Deterministic Fallback<br/>Timeout • Invalid JSON • LLM Failure<br/>build_fallback_diagnostic()"]
+
+    POLICY["Policy Normalization<br/>normalize_diagnostic_with_policy()"]
+
+    JSON["Structured Diagnostic JSON"]
+
+    END([END])
+
+    START --> IMAGE
+    IMAGE --> GRAPH
+    GRAPH --> CLASSIFY
+    CLASSIFY --> KNOWLEDGE
+    KNOWLEDGE --> CONFIDENCE
+
+    CONFIDENCE -->|"No (< 0.70)"| REVIEW
+    REVIEW -->|Resume| LLM
+
+    CONFIDENCE -->|"Yes (≥ 0.70)"| LLM
+
+    LLM -.->|Failure path| FALLBACK
+    LLM --> POLICY
+    FALLBACK --> POLICY
+
+    POLICY --> JSON
+    JSON --> END
+
+    classDef startEnd fill:#eef2f7,stroke:#526276,stroke-width:2px,color:#111827;
+    classDef input fill:#ffffff,stroke:#526276,stroke-width:2px,color:#111827;
+    classDef orchestration fill:#dce9ff,stroke:#2878dc,stroke-width:2px,color:#111827;
+    classDef tool fill:#ccf5ed,stroke:#138477,stroke-width:2px,color:#111827;
+    classDef decision fill:#fff1bd,stroke:#dc7b00,stroke-width:2px,color:#111827;
+    classDef review fill:#fff0dc,stroke:#ea6300,stroke-width:2px,color:#111827;
+    classDef llm fill:#eee7ff,stroke:#7c3aed,stroke-width:2px,color:#111827;
+    classDef fallback fill:#ffe6e6,stroke:#d92d20,stroke-width:2px,color:#111827;
+    classDef policy fill:#e5e9ff,stroke:#5146dc,stroke-width:2px,color:#111827;
+    classDef output fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#111827;
+
+    class START,END startEnd;
+    class IMAGE input;
+    class GRAPH orchestration;
+    class CLASSIFY,KNOWLEDGE tool;
+    class CONFIDENCE decision;
+    class REVIEW review;
+    class LLM llm;
+    class FALLBACK fallback;
+    class POLICY policy;
+    class JSON output;
+
+    linkStyle 5 stroke:#ea6300,stroke-width:2px;
+    linkStyle 6 stroke:#ea6300,stroke-width:2px;
+    linkStyle 7 stroke:#16a34a,stroke-width:2px;
+    linkStyle 8 stroke:#d92d20,stroke-width:2px,stroke-dasharray:5 5;
+    linkStyle 10 stroke:#d92d20,stroke-width:2px;
+
+LangChain Core: Typed tool abstractions
+LangGraph: Stateful orchestration and human-in-the-loop control
+Ollama: Local LLM runtime
+`
 
 ### Step-by-Step Orchestration
 
